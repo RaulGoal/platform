@@ -119,8 +119,10 @@ class TLMasterAdder (address: BigInt, beatBytes: Int)(implicit p: Parameters) ex
       	  process_count := process_count + 1.U
 
         }.elsewhen (process_count === 2.U){
-
-          accumulator := accumulator + opC
+          
+          val temp = accumulator + opC
+            
+          accumulator := Mux( (temp.asSInt > 0.S ), temp, 0.u)
           state       := mem_write
      	
         }
